@@ -32,6 +32,16 @@ app.get("/all", (req, res) => {
     });
 });
 
+app.post("/submit", (req, res) => {
+    db.todos.insert(req.body, (error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            res.send(data);
+        }
+    });
+});
+
 app.listen(PORT, () => {
     console.log("App running on port " + PORT);
 });

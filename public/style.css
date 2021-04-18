@@ -11,3 +11,7 @@ textarea {
 #btn-group {
     margin-top: 15px;
 }
+
+#new-todo-group, #create-btn {
+    margin-top: 15px;
+}
