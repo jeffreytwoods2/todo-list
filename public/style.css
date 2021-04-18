@@ -1,0 +1,13 @@
+h1 {
+    margin-top: 15px;
+}
+
+textarea {
+    display: block;
+    margin: auto;
+    width: 100%;
+}
+
+#btn-group {
+    margin-top: 15px;
+}
