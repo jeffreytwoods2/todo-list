@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 
 // API Routes
 app.get("/all", (req, res) => {
-    db.notes.find({}, (error, data) => {
+    db.todos.find({}, (error, data) => {
         if (error) {
             res.send(error);
         } else {
