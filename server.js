@@ -77,6 +77,21 @@ app.post("/updateTask/:id", (req, res) => {
     );
 });
 
+app.delete("/delete/:id", (req, res) => {
+    db.todos.remove(
+        {
+            _id: mongojs.ObjectID(req.params.id)
+        },
+        (error, data) => {
+            if (error) {
+                res.send(error);
+            } else {
+                res.send(data);
+            }
+        }
+    );
+});
+
 app.listen(PORT, () => {
     console.log("App running on port " + PORT);
 });

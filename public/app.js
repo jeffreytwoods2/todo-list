@@ -3,8 +3,7 @@ const createBtn = document.getElementById("create-btn");
 const newTodo = document.getElementById("new-todo");
 const editBtn = document.getElementById("edit-btn");
 const currentTodo = document.getElementById("todo-text");
-
-console.log(newTodo);
+const deleteBtn = document.getElementById("delete-btn");
 
 function getAll() {
     clearTodos();
@@ -42,6 +41,10 @@ function resetCreateForm() {
     newTodo.value = "";
 }
 
+function resetTodoField() {
+    currentTodo.value = "";
+}
+
 function updateTodo(data) {
     currentTodo.value = data.task;
 }
@@ -74,6 +77,7 @@ todoList.addEventListener("click", function (e) {
             .then(function (data) {
                 updateTodo(data);
                 editBtn.setAttribute("data-id", data_id);
+                deleteBtn.setAttribute("data-id", data_id);
             })
             .catch(function (err) {
                 console.log("Fetch Error :-S", err);
@@ -84,7 +88,6 @@ todoList.addEventListener("click", function (e) {
 editBtn.addEventListener("click", function (e) {
     data_id = editBtn.getAttribute("data-id");
     const updatedTask = currentTodo.value;
-    console.log("This is the updated task: " + updatedTask);
 
     fetch("/updateTask/" + data_id, {
         method: "post",
@@ -100,10 +103,29 @@ editBtn.addEventListener("click", function (e) {
             return res.json();
         })
         .then(() => {
-            currentTodo.value = "";
+            resetTodoField();
             getAll();
         })
         .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+        });
+});
+
+deleteBtn.addEventListener("click", function (e) {
+    element = e.target;
+    data_id = element.getAttribute("data-id");
+    fetch("/delete/" + data_id, {
+        method: "delete"
+    })
+        .then((res) => {
+            if (res.status !== 200) {
+                console.log("Looks like there was a problem. Status Code: " + res.status);
+                return;
+            }
+            resetTodoField();
+            getAll();
+        })
+        .catch((err) => {
             console.log("Fetch Error :-S", err);
         });
 })
