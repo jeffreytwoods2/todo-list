@@ -123,6 +123,7 @@ createBtn.addEventListener("click", function (e) {
         },
         body: JSON.stringify({
             task: document.getElementById("new-todo").value,
+            completed: false
         })
     })
         .then(res => res.json())
