@@ -2,6 +2,7 @@ const todoList = document.getElementById("todo-list");
 const createBtn = document.getElementById("create-btn");
 const newTodo = document.getElementById("new-todo");
 const editBtn = document.getElementById("edit-btn");
+const currentTodo = document.getElementById("todo-text");
 
 console.log(newTodo);
 
@@ -42,7 +43,6 @@ function resetCreateForm() {
 }
 
 function updateTodo(data) {
-    const currentTodo = document.getElementById("todo-text");
     currentTodo.value = data.task;
 }
 
@@ -80,5 +80,32 @@ todoList.addEventListener("click", function (e) {
             });
     }
 });
+
+editBtn.addEventListener("click", function (e) {
+    data_id = editBtn.getAttribute("data-id");
+    const updatedTask = currentTodo.value;
+    console.log("This is the updated task: " + updatedTask);
+
+    fetch("/updateTask/" + data_id, {
+        method: "post",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            updatedTask
+        })
+    })
+        .then(function (res) {
+            return res.json();
+        })
+        .then(() => {
+            currentTodo.value = "";
+            getAll();
+        })
+        .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+        });
+})
 
 getAll();

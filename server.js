@@ -57,6 +57,26 @@ app.post("/submit", (req, res) => {
     });
 });
 
+app.post("/updateTask/:id", (req, res) => {
+    db.todos.update(
+        {
+            _id: mongojs.ObjectId(req.params.id)
+        },
+        {
+            $set: {
+                task: req.body.updatedTask
+            }
+        },
+        (error, data) => {
+            if (error) {
+                res.send(error);
+            } else {
+                res.send(data);
+            }
+        }
+    );
+});
+
 app.listen(PORT, () => {
     console.log("App running on port " + PORT);
 });
