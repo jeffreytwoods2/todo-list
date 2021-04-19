@@ -32,6 +32,16 @@ app.get("/all", (req, res) => {
     });
 });
 
+app.get("/completed", (req, res) => {
+    db.todos.find({ completed: true }, (error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(data);
+        }
+    });
+});
+
 app.get("/find/:id", (req, res) => {
     db.todos.findOne(
         {
