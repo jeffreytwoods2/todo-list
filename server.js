@@ -12,10 +12,9 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-const databaseUrl = "mongodb+srv://swepty-admin:June232018@sandboxcluster.t4hqq.mongodb.net/todolist?retryWrites=true&w=majority";
 const collections = ["todos"];
 
-const db = mongojs(databaseUrl, collections);
+const db = mongojs(MONGODB_URI, collections);
 
 // HTML Routes
 app.get("/", (req, res) => {
