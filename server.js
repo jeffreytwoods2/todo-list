@@ -12,17 +12,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(
-    process.env.MONGODB_URI || 'mongodb://localhost/todolist',
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-    }
-);
-
-const databaseUrl = "todolist";
+const databaseUrl = "mongodb+srv://swepty-admin:June232018@sandboxcluster.t4hqq.mongodb.net/todolist?retryWrites=true&w=majority";
 const collections = ["todos"];
 
 const db = mongojs(databaseUrl, collections);
