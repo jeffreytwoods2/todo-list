@@ -42,6 +42,16 @@ app.get("/completed", (req, res) => {
     });
 });
 
+app.get("/pending", (req, res) => {
+    db.todos.find({ completed: false }, (error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(data);
+        }
+    });
+});
+
 app.get("/find/:id", (req, res) => {
     db.todos.findOne(
         {
