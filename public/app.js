@@ -1,6 +1,8 @@
 const todoList = document.getElementById("todo-list");
 const createBtn = document.getElementById("create-btn");
 const newTodo = document.getElementById("new-todo");
+const editBtn = document.getElementById("edit-btn");
+
 console.log(newTodo);
 
 function getAll() {
@@ -39,6 +41,11 @@ function resetCreateForm() {
     newTodo.value = "";
 }
 
+function updateTodo(data) {
+    const currentTodo = document.getElementById("todo-text");
+    currentTodo.value = data.task;
+}
+
 createBtn.addEventListener("click", function (e) {
     fetch("/submit", {
         method: "post",
@@ -53,6 +60,25 @@ createBtn.addEventListener("click", function (e) {
         .then(res => res.json())
         .then(res => populateTodos([res]));
     resetCreateForm();
+});
+
+todoList.addEventListener("click", function (e) {
+    if (e.target.matches(".todo-item")) {
+        element = e.target;
+        data_id = element.getAttribute("data-id");
+
+        fetch("/find/" + data_id, { method: "get" })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                updateTodo(data);
+                editBtn.setAttribute("data-id", data_id);
+            })
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
+    }
 });
 
 getAll();

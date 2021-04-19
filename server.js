@@ -32,6 +32,21 @@ app.get("/all", (req, res) => {
     });
 });
 
+app.get("/find/:id", (req, res) => {
+    db.todos.findOne(
+        {
+            _id: mongojs.ObjectId(req.params.id)
+        },
+        (error, data) => {
+            if (error) {
+                res.send(error);
+            } else {
+                res.send(data);
+            }
+        }
+    );
+});
+
 app.post("/submit", (req, res) => {
     db.todos.insert(req.body, (error, data) => {
         if (error) {
