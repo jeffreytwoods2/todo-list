@@ -15,3 +15,7 @@ textarea {
 #new-todo-group, #create-btn {
     margin-top: 15px;
 }
+
+#subtitle {
+    color: gray;
+}

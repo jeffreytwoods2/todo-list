@@ -4,6 +4,7 @@ const newTodo = document.getElementById("new-todo");
 const editBtn = document.getElementById("edit-btn");
 const currentTodo = document.getElementById("todo-text");
 const deleteBtn = document.getElementById("delete-btn");
+const completedBtn = document.getElementById("completed-btn");
 
 function getAll() {
     clearTodos();
@@ -28,7 +29,11 @@ function populateTodos(res) {
         let task = res[i]["task"];
         let completed = res[i]["completed"];
 
-        let snippet = `<p class="todo-item" data-id=${data_id}>${task}</p>`;
+        if (completed) {
+            snippet = `<p class="todo-item" style="color:black" data-id=${data_id}>${task}</p>`;
+        } else {
+            snippet = `<p class="todo-item" style="color:green" data-id=${data_id}>${task}</p>`;
+        }
         todoList.insertAdjacentHTML("beforeend", snippet);
     }
 }
@@ -47,6 +52,32 @@ function resetTodoField() {
 
 function updateTodo(data) {
     currentTodo.value = data.task;
+}
+
+function toggleStatus(data) {
+    let todoId = data._id;
+    let toggleTodoStatus = (!data.completed);
+
+    fetch("/updateCompleted/" + todoId, {
+        method: "post",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            toggleTodoStatus
+        })
+    })
+        .then(function (res) {
+            return res.json();
+        })
+        .then(() => {
+            resetTodoField();
+            getAll();
+        })
+        .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+        });
 }
 
 createBtn.addEventListener("click", function (e) {
@@ -71,13 +102,14 @@ todoList.addEventListener("click", function (e) {
         data_id = element.getAttribute("data-id");
 
         fetch("/find/" + data_id, { method: "get" })
-            .then(function (response) {
-                return response.json();
+            .then(function (res) {
+                return res.json();
             })
-            .then(function (data) {
+            .then((data) => {
                 updateTodo(data);
                 editBtn.setAttribute("data-id", data_id);
                 deleteBtn.setAttribute("data-id", data_id);
+                completedBtn.setAttribute("data-id", data_id);
             })
             .catch(function (err) {
                 console.log("Fetch Error :-S", err);
@@ -109,6 +141,23 @@ editBtn.addEventListener("click", function (e) {
         .catch(function (err) {
             console.log("Fetch Error :-S", err);
         });
+});
+
+completedBtn.addEventListener("click", function (e) {
+    data_id = completedBtn.getAttribute("data-id");
+    let todoStatus;
+
+    fetch("/find/" + data_id, { method: "get" })
+        .then(function (res) {
+            return res.json();
+        })
+        .then((data) => {
+            toggleStatus(data);
+        })
+        .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+        });
+
 });
 
 deleteBtn.addEventListener("click", function (e) {

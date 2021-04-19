@@ -12,19 +12,21 @@
 </head>
 
 <body>
-    <header>
-        <h1 class="text-center">Todos</h1>
-    </header>
+    <h1 class="text-center">Todo List App</h1>
+    <p id="subtitle" class="fs-3 text-center">Green = Pending | Black = Completed</p>
 
     <main class="container">
         <div id="current-todo">
+            <h1>Edit:</h1>
             <textarea id="todo-text"></textarea>
             <div class="d-grid gap-2 d-md-block" id="btn-group">
-                <button class="btn btn-outline-primary" type="button">Completed</button>
+                <button class="btn btn-outline-primary" type="button" id="completed-btn">Toggle Completed</button>
                 <button class="btn btn-outline-success" type="button" id="edit-btn">Edit</button>
                 <button class="btn btn-outline-danger" type="button" id="delete-btn">Delete</button>
             </div>
         </div>
+
+        <h1>Todos:</h1>
 
         <div class="card-body" id="todo-list"></div>
 

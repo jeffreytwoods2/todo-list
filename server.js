@@ -77,6 +77,26 @@ app.post("/updateTask/:id", (req, res) => {
     );
 });
 
+app.post("/updateCompleted/:id", (req, res) => {
+    db.todos.update(
+        {
+            _id: mongojs.ObjectId(req.params.id)
+        },
+        {
+            $set: {
+                completed: req.body.toggleTodoStatus
+            }
+        },
+        (error, data) => {
+            if (error) {
+                res.send(error);
+            } else {
+                res.send(data);
+            }
+        }
+    );
+});
+
 app.delete("/delete/:id", (req, res) => {
     db.todos.remove(
         {
