@@ -14,7 +14,7 @@ app.use(express.static("public"));
 
 const collections = ["todos"];
 
-const db = mongojs(MONGODB_URI, collections);
+const db = mongojs(process.env.MONGODB_URI, collections);
 
 // HTML Routes
 app.get("/", (req, res) => {
